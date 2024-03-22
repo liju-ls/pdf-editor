@@ -1,6 +1,7 @@
 import Express, { json } from "express";
 import path from "path";
-import mongoose from "mongoose";
+import cookieParser from "cookie-parser";
+
 import pdfRouter from "./routes/pdfRoutes.js";
 import authRoute from "./routes/authenticationRoute.js";
 import { Database } from "./services/databaseService.js";
@@ -13,6 +14,7 @@ const __dirname = path.dirname("/");
 const app = Express();
 app.use(Express.static(path.join(__dirname, "public")));
 app.use(Express.json());
+app.use(cookieParser());
 
 app.use("/", pdfRouter);
 app.use("/", authRoute);
