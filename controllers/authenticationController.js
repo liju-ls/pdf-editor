@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import userModel from "../models/user.js";
 
 export async function login(req, res) {
@@ -12,15 +13,23 @@ export async function login(req, res) {
       .json({ status: "failed", message: "Invalid email." });
   else {
     const hashedPass = accounts[0].password;
-    bcrypt.compare(password, hashedPass).then((data) => {
-      if (data)
-        return res
-          .status(200)
-          .json({ status: "success", message: "Login successfull." });
-      else
+    bcrypt.compare(password, hashedPass).then(async (data) => {
+      if (!data)
         return res
           .status(400)
           .json({ status: "failed", message: "Invalid password." });
+
+      jwt.sign(email, process.env.JWTSECRET, (err, token) => {
+        if (err) return console.log(err);
+
+        res
+          .cookie("token", token, {
+            httpOnly: true,
+            expire: 86400000 + Date.now(),
+          })
+          .status(200)
+          .json({ status: "success", message: "Login successfull." });
+      });
     });
   }
 }
