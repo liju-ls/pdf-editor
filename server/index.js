@@ -1,6 +1,7 @@
 import Express, { json } from "express";
 import path from "path";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 import pdfRouter from "./routes/pdfRoutes.js";
 import authRoute from "./routes/authenticationRoute.js";
@@ -15,6 +16,8 @@ const app = Express();
 app.use(Express.static(path.join(__dirname, "public")));
 app.use(Express.json());
 app.use(cookieParser());
+
+app.use(cors());
 
 app.use("/", pdfRouter);
 app.use("/", authRoute);
