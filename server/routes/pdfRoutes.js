@@ -2,11 +2,14 @@ import express from "express";
 import {
   extractPdfPages,
   changePdfOrder,
+  getAll,
 } from "../controllers/pdfController.js";
 import upload from "../middlewares/upload.js";
 import { authorization } from "../middlewares/authorization.js";
 
 const router = express.Router();
+
+router.get("/files", authorization, getAll);
 
 // route to extract page
 router.post(

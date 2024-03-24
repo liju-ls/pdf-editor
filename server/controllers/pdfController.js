@@ -1,12 +1,30 @@
 import { PDFDocument } from "pdf-lib";
+import { fileURLToPath } from "url";
+import path from "path";
 import fs from "fs";
 import userModel from "../models/user.js";
-import path from "path";
-import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const uploadPath = path.join(__dirname, "../public/usersFiles/");
+
+export async function getAll(req, res) {
+  console.log(req.cookies.token);
+
+  if (req.logged) {
+    const email = req.email;
+    try {
+      userModel.findOne({ email: email }).then((user) => {
+        const fileNameArray = user.files;
+        return res
+          .status(200)
+          .json({ status: "success", files: fileNameArray });
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+}
 
 // delete input file
 function deleteFile(filePath) {
