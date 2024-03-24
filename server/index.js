@@ -17,7 +17,13 @@ app.use(Express.static(path.join(__dirname, "public")));
 app.use(Express.json());
 app.use(cookieParser());
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: ["POST", "GET"],
+    credentials: true,
+  })
+);
 
 app.use("/", pdfRouter);
 app.use("/", authRoute);
