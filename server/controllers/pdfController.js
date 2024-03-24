@@ -29,7 +29,8 @@ export async function extractPdfPages(req, res) {
       const pdfDoc = await PDFDocument.load(pdf);
       const newDoc = await PDFDocument.create();
 
-      const pageNumber = JSON.parse(req.body.pages);
+      let pageNumber = JSON.parse(req.body.pages);
+      pageNumber = pageNumber.map((item) => item - 1);
 
       const copiedPages = await newDoc.copyPages(pdfDoc, pageNumber);
 
@@ -38,8 +39,8 @@ export async function extractPdfPages(req, res) {
 
       const newFile = await newDoc.save();
 
-      res.write(newFile);
-      res.end();
+      res.setHeader("Content-Type", "application/pdf");
+      res.end(newFile);
 
       loggedFileHandler(req, userModel);
     });
