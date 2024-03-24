@@ -20,21 +20,17 @@ function Editor() {
   function removePage(page) {
     const index = pages.indexOf(page);
     pages.splice(index, 1);
-    console.log(pages);
   }
 
   async function handleExtractPage() {
-    console.log(file);
     const formData = new FormData();
     formData.append("file", file);
     formData.append("pages", JSON.stringify(pages));
 
-    console.log(pages);
-
     await fetch("http://localhost:3001/extract-pages", {
       method: "post",
-
       body: formData,
+      credentials: "include",
     }).then(async (response) => {
       const a = await response.blob();
       setEditedFile(a);
