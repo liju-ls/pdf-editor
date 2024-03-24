@@ -21,14 +21,16 @@ export async function login(req, res) {
 
       jwt.sign(email, process.env.JWTSECRET, (err, token) => {
         if (err) return console.log(err);
-
         res
+          .status(200)
           .cookie("token", token, {
             httpOnly: true,
-            expire: 86400000 + Date.now(),
           })
-          .status(200)
-          .json({ status: "success", message: "Login successfull." });
+          .json({
+            status: "success",
+            message: "Login successfull.",
+            token: token,
+          });
       });
     });
   }
