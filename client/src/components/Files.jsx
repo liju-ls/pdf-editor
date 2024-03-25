@@ -15,10 +15,14 @@ function Files() {
     await fetch(`${import.meta.env.VITE_HOST}files`, {
       method: "GET",
       credentials: "include",
-    }).then(async (response) => {
-      const fileNameArray = await response.json();
-      setFiles(fileNameArray.files);
-    });
+    })
+      .then(async (response) => {
+        const fileNameArray = await response.json();
+        setFiles(fileNameArray.files);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   // function responsible for get single
