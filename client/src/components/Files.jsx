@@ -12,7 +12,7 @@ function Files() {
   }, []);
 
   async function getFiles() {
-    await fetch(`${process.env.HOST}/files`, {
+    await fetch(`${import.meta.env.VITE_HOST}files`, {
       method: "GET",
       credentials: "include",
     }).then(async (response) => {
