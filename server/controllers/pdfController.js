@@ -8,9 +8,22 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const uploadPath = path.join(__dirname, "../public/usersFiles/");
 
-export async function getAll(req, res) {
-  console.log(req.cookies.token);
+export async function getOne(req, res) {
+  const filename = req.query.filename;
 
+  try {
+    fs.readFile(uploadPath + filename, async (err, data) => {
+      if (err) throw err;
+      const pdfDoc = await PDFDocument.load(data);
+      const pdfFile = await pdfDoc.save();
+      res.status(200).setHeader("Content-Type", "application/pdf").end(pdfFile);
+    });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export async function getAll(req, res) {
   if (req.logged) {
     const email = req.email;
     try {
