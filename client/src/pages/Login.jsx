@@ -1,10 +1,14 @@
 import Cookies from "js-cookie";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { loggedContext } from "../App";
 
 function Login() {
+  const [isLogged, setIsLogged] = useContext(loggedContext);
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [message, setMessage] = useState(null);
+  const navigate = useNavigate();
 
   async function handleRegister(e) {
     e.preventDefault();
@@ -23,8 +27,14 @@ function Login() {
     })
       .then(async (response) => {
         const result = await response.json();
-        Cookies.set("token", result.token);
-        setMessage(result.message);
+        if (result.status == "success") {
+          Cookies.set("token", result.token);
+          setMessage(result.message + " Redirecting to Homepage.");
+          setIsLogged(true);
+          setTimeout(() => {
+            navigate("/account");
+          }, 1000);
+        }
       })
       .catch((err) => {
         setMessage(err.message);
