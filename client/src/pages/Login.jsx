@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loggedContext } from "../App";
 
@@ -9,6 +9,12 @@ function Login() {
   const [password, setPassword] = useState(null);
   const [message, setMessage] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setTimeout(() => {
+      setMessage(null);
+    }, 3000);
+  }, [message]);
 
   // function responsible for send login
   // user data to server and set logged state
@@ -36,7 +42,7 @@ function Login() {
           setTimeout(() => {
             navigate("/");
           }, 1000);
-        }
+        } else setMessage(result.message);
       })
       .catch((err) => {
         setMessage(err.message);
@@ -57,7 +63,7 @@ function Login() {
         <form className="p-5">
           <p className="fs-3 fw-bold">Welcome</p>
 
-          {message ? <p>{message}</p> : null}
+          {message && <p>{message}</p>}
 
           <div>
             <input
