@@ -2,6 +2,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import userModel from "../models/user.js";
 
+// get login data, look for user in
+// database, generate token and return token
 export async function login(req, res) {
   const email = req.body.email;
   const password = req.body.password;
@@ -36,6 +38,8 @@ export async function login(req, res) {
   }
 }
 
+// get register user data, check database
+// for user and create new user
 export async function register(req, res) {
   const email = req.body.email;
   const plainPassword = req.body.password;

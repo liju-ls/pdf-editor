@@ -9,8 +9,10 @@ import upload from "../middlewares/upload.js";
 import { authorization } from "../middlewares/authorization.js";
 
 const router = express.Router();
-
+// route to get one file
 router.get("/file", authorization, getOne);
+
+// route to get all files
 router.get("/files", authorization, getAll);
 
 // route to extract page

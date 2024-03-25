@@ -1,5 +1,7 @@
 import { Schema, model, ObjectId } from "mongoose";
 
+// mongoose schema for user
+// registration and data query
 const fileSchema = new Schema(
   {
     fileName: { type: String, required: true },
@@ -20,4 +22,4 @@ const userSchema = new Schema({
   files: [fileSchema],
 });
 
-export default model("users", userSchema);
+export default model(process.env.COLLECTION, userSchema);

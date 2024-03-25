@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 
+// verify token is present or not
 export function authorization(req, res, next) {
   const subToken = req.cookies.token;
 

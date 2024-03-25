@@ -4,10 +4,12 @@ import path from "path";
 import fs from "fs";
 import userModel from "../models/user.js";
 
+// file, dir, upload paths
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const uploadPath = path.join(__dirname, "../public/usersFiles/");
 
+// get server filename and return the file
 export async function getOne(req, res) {
   const filename = req.query.filename;
 
@@ -23,6 +25,8 @@ export async function getOne(req, res) {
   }
 }
 
+// get token and query files in database
+// return the filename array
 export async function getAll(req, res) {
   if (req.logged) {
     const email = req.email;
