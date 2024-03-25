@@ -3,23 +3,27 @@ import { pdfjs, Document, Page } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 
+// javascipt worker for loading pdf file
+// wihtout disturbing main thread
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.js",
   import.meta.url
 ).toString();
 
-function PdfViewer({ file, add, remove }) {
-  const [pdf, setPdf] = useState(null);
+function PdfViewer({ file, add, remove, enableBtn }) {
   const [pageNum, setPageNum] = useState(null);
   const [pageLoaded, setPageLoaded] = useState(false);
   const pageElements = [];
 
+  // set pagenumber state once pdf loaded
   function handlePdfLoad({ numPages }) {
-    console.log(numPages);
     setPageNum(numPages);
     setPageLoaded(true);
+    enableBtn();
   }
 
+  // return page element for
+  // each page in the pdf
   function renderPages() {
     for (let i = 0; i < pageNum; i++) {
       pageElements.push(
@@ -48,6 +52,8 @@ function PdfViewer({ file, add, remove }) {
   return (
     <div className="mt-5 text-center">
       <Document
+        loading="PDF Loading..."
+        noData={"<--- PDF Display --->"}
         className="m-5 d-flex flex-wrap gap-5 justify-content-center"
         onLoadSuccess={handlePdfLoad}
         file={file !== null ? file : null}

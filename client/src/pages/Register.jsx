@@ -5,6 +5,8 @@ function Register() {
   const [password, setPassword] = useState(null);
   const [message, setMessage] = useState(null);
 
+  // function responsible for sending registeration
+  // user data to server
   async function handleRegister(e) {
     e.preventDefault();
 
@@ -29,10 +31,12 @@ function Register() {
       });
   }
 
+  // update email state
   function updateEmail(e) {
     setEmail(e.target.value);
   }
 
+  // update password state
   function updatePassword(e) {
     setPassword(e.target.value);
   }

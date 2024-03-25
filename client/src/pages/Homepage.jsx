@@ -10,6 +10,7 @@ function Homepage() {
   const [file, setFile] = useState(null);
 
   return (
+    // context provider for the file context
     <fileContext.Provider value={[file, setFile]}>
       <div className="d-flex flex-column">
         <Editor />

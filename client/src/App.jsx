@@ -6,11 +6,13 @@ import Navbar from "./components/Navbar";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 
+// context for user logged state
 export const loggedContext = createContext();
 
 function App() {
   const [isLogged, setIsLogged] = useState(false);
 
+  // check token and set user logged or not
   useEffect(() => {
     if (Cookies.get("token") !== undefined) {
       setIsLogged(true);

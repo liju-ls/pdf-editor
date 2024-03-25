@@ -16,6 +16,8 @@ function Navbar() {
                 Home
               </a>
             </li>
+            {/* show login and register 
+                button only when not logged */}
             {!isLogged ? (
               <li className="nav-item">
                 <a className="nav-link" href="/login">
@@ -31,7 +33,8 @@ function Navbar() {
                 </a>
               </li>
             ) : null}
-
+            {/* show logout button 
+                only when logged */}
             {isLogged ? (
               <li className="nav-item">
                 <a

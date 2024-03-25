@@ -10,7 +10,9 @@ function Login() {
   const [message, setMessage] = useState(null);
   const navigate = useNavigate();
 
-  async function handleRegister(e) {
+  // function responsible for send login
+  // user data to server and set logged state
+  async function handleLogin(e) {
     e.preventDefault();
 
     const user = {
@@ -32,7 +34,7 @@ function Login() {
           setMessage(result.message + " Redirecting to Homepage.");
           setIsLogged(true);
           setTimeout(() => {
-            navigate("/account");
+            navigate("/");
           }, 1000);
         }
       })
@@ -80,7 +82,7 @@ function Login() {
           </div>
           <div className="my-3">
             <button
-              onClick={handleRegister}
+              onClick={handleLogin}
               className="btn btn-secondary text-center"
             >
               Login
