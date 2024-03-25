@@ -1,5 +1,9 @@
 # pdf-editor
 
+[Live Link](https://pdf-editor-client-ix32.onrender.com/)
+
+![alt text](images/app.png)
+
 ## Run App : Local
 
 To run the app locally on your computer clone the repo using following command.
@@ -52,7 +56,7 @@ For extract pages send a request using following end point with FORMDATA as body
 
 (host name should be replaced by your server hostname or localhost:port if you running locally)
 
-![alt text](<Screenshot from 2024-03-25 15-18-14.png>)
+![alt text](images/form-data-example.png)
 
 The request should carry a formdata object that contains a PDF with field named as **file: pdfname.pdf** and an array with page number needs to be named as **pages : [1, 2]**.
 
@@ -64,7 +68,7 @@ For extract pages send a request using following end point with FORMDATA as body
 
 (host name should be replaced by your server hostname or localhost:port if you running locally)
 
-![alt text](<Screenshot from 2024-03-25 15-18-14.png>)
+![alt text](images/form-data-example.png)
 
 The request should carry a formdata object that contains a PDF with field named as **file: pdfname.pdf** and an array with page number in order how you want change the pdf page **order: [3, 2, 1]**.
 
