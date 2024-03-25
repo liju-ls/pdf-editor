@@ -1,20 +1,38 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
+import { useEffect, useState, createContext } from "react";
+import { useNavigate, BrowserRouter, Routes, Route } from "react-router-dom";
+import Cookies from "js-cookie";
 import Homepage from "./pages/Homepage";
-import Login from "./pages/Login";
+import Navbar from "./components/Navbar";
 import Register from "./pages/Register";
+import Login from "./pages/Login";
+import Account from "./pages/Account";
+
+export const loggedContext = createContext();
 
 function App() {
+  const navigate = useNavigate();
+  const [isLogged, setIsLogged] = useState(false);
+
+  useEffect(() => {
+    if (Cookies.get("token") !== undefined) {
+      setIsLogged(true);
+      navigate("/account");
+    } else {
+      return setIsLogged(false);
+    }
+  }, []);
+
   return (
     <div className="vh-100">
-      <Navbar />
-      <BrowserRouter>
+      <loggedContext.Provider value={[isLogged, setIsLogged]}>
+        <Navbar />
         <Routes>
-          <Route path="/" element={<Homepage />} />
+          <Route path="/" element={<Homepage isLogged={isLogged} />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/account" element={<Account />} />
         </Routes>
-      </BrowserRouter>
+      </loggedContext.Provider>
     </div>
   );
 }
