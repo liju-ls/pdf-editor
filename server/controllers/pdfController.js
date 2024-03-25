@@ -58,14 +58,16 @@ export async function extractPdfPages(req, res) {
   const pdfPath = req.file.path;
 
   try {
+    let pageNumber = JSON.parse(req.body.pages);
+    if (pageNumber.length === 0) throw new Error("no pages selected.");
+
+    pageNumber = pageNumber.map((item) => item - 1);
+
     fs.readFile(pdfPath, async (err, pdf) => {
       if (err) throw err;
 
       const pdfDoc = await PDFDocument.load(pdf);
       const newDoc = await PDFDocument.create();
-
-      let pageNumber = JSON.parse(req.body.pages);
-      pageNumber = pageNumber.map((item) => item - 1);
 
       const copiedPages = await newDoc.copyPages(pdfDoc, pageNumber);
 
@@ -74,13 +76,14 @@ export async function extractPdfPages(req, res) {
 
       const newFile = await newDoc.save();
 
-      res.setHeader("Content-Type", "application/pdf");
+      res.status(200).setHeader("Content-Type", "application/pdf");
       res.end(newFile);
 
       loggedFileHandler(req, userModel);
     });
   } catch (err) {
-    console.log("Error : ", err);
+    console.log(err);
+    res.status(400).json({ status: "failed", message: err.message });
   }
 }
 
@@ -88,6 +91,7 @@ export async function extractPdfPages(req, res) {
 // return a new pdf with changed order
 export async function changePdfOrder(req, res) {
   const pdfFilename = req.file.path;
+
   try {
     fs.readFile(pdfFilename, async (err, pdf) => {
       if (err) throw err;
@@ -105,13 +109,14 @@ export async function changePdfOrder(req, res) {
 
       const newFile = await newDoc.save();
 
-      res.write(newFile);
-      res.end();
+      res.status(200).setHeader("Content-Type", "application/pdf");
+      res.end(newFile);
 
       loggedFileHandler(req, userModel);
     });
   } catch (err) {
     console.log("Error : ", err);
+    res.status(400).json({ status: "failed", message: err.message });
   }
 }
 

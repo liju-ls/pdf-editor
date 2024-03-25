@@ -10,7 +10,7 @@ import { Database } from "./services/databaseService.js";
 const __dirname = path.dirname("/");
 
 // database connection
-const DB = new Database(`mongodb://localhost:27017/${process.env.DATABASE}`);
+const DB = new Database(`${process.env.DBURI}${process.env.DATABASE}`);
 DB.connect();
 
 const app = Express();
@@ -33,4 +33,8 @@ app.use("/", authRoute);
 app.listen(process.env.PORT, (err) => {
   if (err) console.log(err);
   console.log("Server running at port : ", process.env.PORT);
+});
+
+process.on("uncaughtException", (err) => {
+  console.log(err);
 });
