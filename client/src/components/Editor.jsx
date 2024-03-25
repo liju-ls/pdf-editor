@@ -6,7 +6,14 @@ function Editor() {
   const [file, setFile] = useContext(fileContext);
   const [editedFile, setEditedFile] = useState(null);
   const [isDisabled, setIsDisabled] = useState(true);
+  const [error, setError] = useState(null);
   const pages = [];
+
+  useEffect(() => {
+    setTimeout(() => {
+      setError(null);
+    }, 3000);
+  }, [error]);
 
   // enable extract button when pdf loaded
   function handleEnableBtn() {
@@ -41,10 +48,19 @@ function Editor() {
       method: "post",
       body: formData,
       credentials: "include",
-    }).then(async (response) => {
-      const a = await response.blob();
-      setEditedFile(a);
-    });
+    })
+      .then(async (response) => {
+        if (response.status == 200) {
+          const pdf = await response.blob();
+          setEditedFile(pdf);
+        } else {
+          const result = await response.json();
+          setError(result.message);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   return (
@@ -65,6 +81,11 @@ function Editor() {
           }}
         />
       </div>
+
+      {error && (
+        <div className="text-danger text-capitalize text-center">{error}</div>
+      )}
+
       <div className="d-flex">
         <div className="border-end flex-grow-1">
           <PdfViewer
@@ -74,9 +95,10 @@ function Editor() {
             enableBtn={handleEnableBtn}
           />
         </div>
-        <div className="flex-grow-2">
+        <div className="flex-grow-2 text-center">
           {editedFile !== null && (
             <button
+              className="btn btn-sm btn-danger"
               // function responsible for open new window
               // and open pdf file on it
               onClick={() => {
