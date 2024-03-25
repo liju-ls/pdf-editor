@@ -15,7 +15,7 @@ function Register() {
       password: password,
     };
 
-    await fetch("http://localhost:3001/register", {
+    await fetch(`${import.meta.env.VITE_HOST}register`, {
       method: "POST",
       body: JSON.stringify(user),
       headers: {

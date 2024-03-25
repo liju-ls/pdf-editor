@@ -44,7 +44,7 @@ function Editor() {
     formData.append("file", file);
     formData.append("pages", JSON.stringify(pages));
 
-    await fetch("http://localhost:3001/extract-pages", {
+    await fetch(`${import.meta.env.VITE_HOST}extract-pages`, {
       method: "post",
       body: formData,
       credentials: "include",

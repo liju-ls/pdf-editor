@@ -12,7 +12,7 @@ function Files() {
   }, []);
 
   async function getFiles() {
-    await fetch("http://localhost:3001/files", {
+    await fetch(`${process.env.HOST}/files`, {
       method: "GET",
       credentials: "include",
     }).then(async (response) => {
@@ -24,7 +24,7 @@ function Files() {
   // function responsible for get single
   // file from the user
   async function handleFile(filename) {
-    await fetch(`http://localhost:3001/file?filename=${filename}`, {
+    await fetch(`${import.meta.env.VITE_HOST}file?filename=${filename}`, {
       method: "GET",
       credentials: "include",
     }).then(async (response) => {

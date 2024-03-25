@@ -20,7 +20,7 @@ function Login() {
       password: password,
     };
 
-    await fetch("http://localhost:3001/login", {
+    await fetch(`${import.meta.env.VITE_HOST}login`, {
       method: "POST",
       body: JSON.stringify(user),
       headers: {
