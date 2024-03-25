@@ -21,7 +21,10 @@ app.use(cookieParser());
 // cors setup
 app.use(
   cors({
-    origin: "https://pdf-editor-client-ix32.onrender.com",
+    origin: (() => {
+      if (process.env.NODE_ENV === "production") return process.env.HOST;
+      if (process.env.NODE_ENV === "development") return process.env.DEVHOST;
+    })(),
     methods: ["POST", "GET"],
     credentials: true,
   })
