@@ -25,6 +25,10 @@ After create a ".env" file in `/server` directory and set following values or an
 
 > DBURI = (your local or remote mongodb connection string host without database name)
 
+> DEV_HOST = http://localhost:3001/
+
+> NODE_ENV = development
+
 After that install all the dependencies and run the development server using following commands.
 
 ```
